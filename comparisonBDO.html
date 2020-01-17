@@ -1,0 +1,390 @@
+<!doctype html>
+<html lang="en">
+<head>
+<!-- Required meta tags -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<!-- Bootstrap CSS -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+<!-- Custom CSS -->
+<style>
+.container{
+    max-width: 400px;
+}
+.row:nth-child(even){
+    background-color: #eeeeee;
+}
+.row:nth-child(odd){
+    background-color: #f8f8f8;
+}
+</style>
+<title>BDOcompare</title>
+</head>
+<body class="m-4 font-weight-light">
+<script>
+var leebur = [
+    {
+        ap: 0,
+        accuracy: 10,
+        evasion: 1,
+        dr: 1,
+        hiddenEvasion: 3,
+        hiddenDr: 5,
+    },
+    // todo: +1 to TRI
+    null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null,
+    {
+        ap: 0,
+        accuracy: 24,
+        evasion: 29,
+        dr: 27,
+        hiddenEvasion: 91,
+        hiddenDr: 14,
+    },
+    {
+        ap: 0,
+        accuracy: 25,
+        evasion: 33,
+        dr: 29,
+        hiddenEvasion: 103,
+        hiddenDr: 17,
+    }
+];
+var caphra = [];
+caphra['armor'] = [];
+caphra['armor'][3] = [];    
+// armor | yellow | TRI
+caphra['armor'][3][18] = [
+    {
+        ap: 0,
+        accuracy: 0,
+        evasion: 0,
+        hiddenEvasion: 0,
+        dr: 0,
+        hiddenDr: 0,
+        hp: 0,
+        mp: 0,
+    },
+    {
+        hp: 10,
+    },
+    {
+        evasion: 1,
+        hiddenEvasion: 2,
+        hp: 10,
+    },
+    {
+        evasion: 1,
+        hiddenEvasion: 1,
+        dr: 1,
+        hp: 10,
+    },
+    {
+        evasion: 1,
+        hiddenEvasion: 1,
+        hp: 20,
+    },
+    {
+        mp: 5,
+    },
+    {
+        mp: 5,
+    },
+    {
+        hiddenEvasion: 1,
+    },
+    {
+        hiddenDr: 1,
+    },
+    {
+        hp: 10,
+    },
+    {
+        // 10
+        mp: 5,
+    },
+    {
+        mp: 5,
+    },
+    {
+        hiddenEvasion: 1,
+    },
+    {
+        hp: 10,
+    },
+    {
+        mp: 5,
+    },
+    {
+        mp: 5,
+    },
+    {
+        hiddenDr: 1,
+    },
+    {
+        hiddenEvasion: 1,
+    },
+    {
+        hp: 10,
+    },
+    {
+        hiddenEvasion: 1,
+    },
+    {
+        hiddenDr: 1,
+    }
+];
+caphra['armor'][3][19] = caphra['armor'][3][18];
+caphra['armor'][3][20] = [
+    {
+        ap: 0,
+        accuracy: 0,
+        evasion: 0,
+        hiddenEvasion: 0,
+        dr: 0,
+        hiddenDr: 0,
+        hp: 0,
+        mp: 0,
+    },
+    {
+        evasion: 1,
+        hiddenEvasion: 1,
+        hp: 20,
+    },
+    {
+        dr: 1,
+        hiddenDr: 1,
+        hp: 10,
+    },
+    {
+        evasion: 1,
+        hiddenEvasion: 1,
+        hp: 10,
+    },
+    {
+        dr: 1,
+        hiddenDr: 1,
+        hp: 10,
+    },
+    {
+        evasion: 1,
+        hiddenEvasion: 1,
+        hp: 10,
+    },
+    {
+        dr: 1,
+        hiddenDr: 1,
+        hp: 10,
+    },
+    {
+        evasion: 1,
+        hiddenEvasion: 1,
+        hp: 10,
+    },
+    {
+        dr: 1,
+        hiddenDr: 1,
+        hp: 10,
+    },
+    {
+        evasion: 1,
+        hiddenEvasion: 1,
+        dr: 1,
+        hiddenDr: 1,
+        hp: 10,
+    },
+    {
+        // 10
+        hiddenEvasion: 1,
+        hp: 10,
+    },
+    {
+        hiddenDr: 1,
+        hp: 10,
+    },
+    {
+        evasion: 1,
+    },
+    {
+        dr: 1,
+    },
+    {
+        hiddenEvasion: 1,
+        hp: 10,
+    },
+    {
+        hiddenDr: 1,
+        hp: 10,
+    },
+    {
+        evasion: 1,
+    },
+    {
+        dr: 1,
+    },
+    {
+        hiddenEvasion: 1,
+        hp: 10,
+    },
+    {
+        hiddenDr: 1,
+        hp: 10,
+    },
+    {
+        evasion: 1,
+        dr: 1,
+    }
+];
+function accumulate(arr, lvl) {
+    var total = { ...arr[0]};
+    for (i=1; i<=lvl; i++) {
+        Object.keys(arr[i]).forEach(stat => {
+            total[stat] += arr[i][stat];
+        })
+    }
+
+    return total;
+}
+function sum(one, two) {
+    // temporary listing of all the stats ...
+    var sum = {...one, ...two};
+    // because this merge cannot really calculate sums
+    Object.keys(sum).forEach(stat => {
+        if (Number.isInteger(one[stat]) && Number.isInteger(two[stat])) {
+            sum[stat] = one[stat] + two[stat];
+        }
+    });
+
+    return sum;
+}
+function diff(one, two) {
+    // temporary listing of all the stats ...
+    var diff = {...one, ...two};
+    Object.keys(diff).forEach(stat => {
+        one[stat] = one[stat] || 0;
+        two[stat] = two[stat] || 0;
+        diff[stat] = two[stat] - one[stat];
+    });
+
+    return diff;
+}
+function addDerivedStats(item) {
+    item.dp = item.evasion + item.dr;
+    item.totalEvasion = item.evasion + item.hiddenEvasion;
+    item.totalDr = item.dr + item.hiddenDr;
+    
+    return item;
+}
+function unCamelCase(name) {
+    if (name.length > 2) {
+        return name
+            .replace(/([A-Z])/g, ' $1')
+            .replace(/^./, str => str.toUpperCase());
+    } else {
+        return name.toUpperCase();
+    }
+
+}
+function color(int) {
+    if (int > 0) {
+        int = "<span style=\"color:green\">" + int + "</span>";
+    } else if (int < 0) {
+        int = "<span style=\"color:red\">" + int + "</span>";
+    } else if (int == 0) {
+        int = "";
+    }
+    return int;
+}
+function display(one, two, diff) {
+    var output = "<div class=\"row\"><div class=\"col-6\">STAT</div>";
+    output += "<div class=\"col-2 text-right\">A</div>";
+    output += "<div class=\"col-2 text-right\">B</div>";
+    output += "<div class=\"col-2 text-right\">C</div></div>";
+    Object.keys(one).forEach(stat => {
+        output += "<div class=\"row\"><div class=\"col-6\">" + unCamelCase(stat) + "</div>";
+        output += "<div class=\"col-2 text-right\">" + one[stat] + "</div>";
+        output += "<div class=\"col-2 text-right\">" + two[stat] + "</div>";
+        output += "<div class=\"col-2 text-right\">" + color(diff[stat]) + "</div></div>";
+    });
+
+    return output;
+}
+function calc(lvlOne, lvlTwo, capOne=0, capTwo=0) {
+    // base stats
+    var itemOne = { ...leebur[lvlOne] };
+    var itemTwo = { ...leebur[lvlTwo] };
+    // caphra'd stats
+    /*
+    var capraOne = itemOne.caphra ? itemOne.caphra[capOne] || {} : {};
+    var capraTwo = itemTwo.caphra ? itemTwo.caphra[capTwo] || {} : {};
+    if (itemOne.caphra)
+        delete itemOne.caphra;
+    if (itemTwo.caphra)
+        delete itemTwo.caphra;
+    */
+    var caphraOne = accumulate(caphra['armor'][3][lvlOne], capOne);
+    var caphraTwo = accumulate(caphra['armor'][3][lvlTwo], capTwo);
+    itemOne = sum(itemOne, caphraOne);
+    itemTwo = sum(itemTwo, caphraTwo);
+    // derived stats
+    itemOne = addDerivedStats(itemOne);
+    itemTwo = addDerivedStats(itemTwo);
+    // difference
+    var change = diff(itemOne, itemTwo);
+    // display
+    document.getElementById("display").innerHTML = display(itemOne, itemTwo, change);    
+}
+function dropDown(id, caphra=false) {
+    map = {
+        16: ["PRI", "I"],
+        17: ["DUO", "II"],
+        18: ["TRI", "III"],
+        19: ["TET", "IV"],
+        20: ["PEN", "V"],
+    }
+    for (i=0; i<leebur.length; i++) {
+        var option = document.createElement("option");
+        option.text = i <= 15 || caphra ? "+" + i : map[i][0];
+        document.getElementById(id).add(option);
+    }
+}
+</script>
+<div class="container float-left">
+    <div class="card">
+        <div class="card-header">
+            <h4 class="my-0 font-weight-light">Upgrade</h4>
+        </div>
+        <div class="m-3">
+            <div id="display" class="mb-3"></div>
+            <div class="row m-0">
+                <select id="current" class="col-6 custom-select custom-select-sm"></select>
+                <select id="upgrade" class="col-6 custom-select custom-select-sm"></select>
+            </div>
+            <div class="row m-0">
+                <select id="currentcaphra" class="col-6 custom-select custom-select-sm"></select>
+                <select id="upgradecaphra" class="col-6 custom-select custom-select-sm"></select>
+            </div>
+            <button id="button" type="button" class="btn btn-primary col mt-3">Calculate</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    // render dropdowns
+    dropDown('current');
+    dropDown('upgrade');
+    dropDown('currentcaphra', true);
+    dropDown('upgradecaphra', true);
+    // calculate
+    var ran = false;
+    document.getElementById('button').onclick = function() {
+        calc(
+            document.getElementById('current').selectedIndex, 
+            document.getElementById('upgrade').selectedIndex,
+            document.getElementById('currentcaphra').selectedIndex, 
+            document.getElementById('upgradecaphra').selectedIndex
+        );
+    };
+</script>
+</body>
+</html>
