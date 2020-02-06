@@ -1,4 +1,4 @@
-[
+var items = [
   {
     "id": 14605,
     "name": "Tadd Shuriken",
@@ -135530,4 +135530,4 @@
     ],
     "levelReq": 56
   }
-]
+];

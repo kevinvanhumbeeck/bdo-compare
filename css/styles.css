@@ -1,0 +1,9 @@
+.container{
+    max-width: 400px;
+}
+.row:nth-child(even){
+    background-color: #eeeeee;
+}
+.row:nth-child(odd){
+    background-color: #f8f8f8;
+}
