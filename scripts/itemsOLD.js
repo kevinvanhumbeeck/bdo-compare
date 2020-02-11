@@ -92993,7 +92993,7 @@ var items = [
   },
   {
     "id": 14721,
-    "name": "Upgraded Iron Buster",
+    "name": "item1d Iron Buster",
     "rarity": "rare",
     "type": "awakening-weapon",
     "enhancement": [
@@ -93391,7 +93391,7 @@ var items = [
   },
   {
     "id": 14725,
-    "name": "Ultimate Upgraded Iron Buster",
+    "name": "Ultimate item1d Iron Buster",
     "rarity": "epic",
     "type": "awakening-weapon",
     "enhancement": [

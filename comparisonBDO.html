@@ -20,21 +20,21 @@
         <div class="container float-left">
             <div class="card">
                 <div class="card-header">
-                    <h4 class="my-0 font-weight-light">Upgrade</h4>
+                    <h4 class="my-0 font-weight-light">item1</h4>
                 </div>
                 <div class="m-3">
                     <div id="display" class="mb-3"></div>
                     <div class="row m-0">
-                        <select id="current" class="col-6 custom-select custom-select-sm"></select>
-                        <select id="upgrade" class="col-6 custom-select custom-select-sm"></select>
+                        <select id="item0" class="col-6 custom-select custom-select-sm item"></select>
+                        <select id="item1" class="col-6 custom-select custom-select-sm item"></select>
                     </div>
                     <div class="row m-0">
-                        <select id="currentenhancement" class="col-6 custom-select custom-select-sm"></select>
-                        <select id="upgradeenhancement" class="col-6 custom-select custom-select-sm"></select>
+                        <select id="item0enhancement" class="col-6 custom-select custom-select-sm item"></select>
+                        <select id="item1enhancement" class="col-6 custom-select custom-select-sm item"></select>
                     </div>
                     <div class="row m-0">
-                        <select id="currentcaphra" class="col-6 custom-select custom-select-sm"></select>
-                        <select id="upgradecaphra" class="col-6 custom-select custom-select-sm"></select>
+                        <select id="item0caphra" class="col-6 custom-select custom-select-sm item"></select>
+                        <select id="item1caphra" class="col-6 custom-select custom-select-sm item"></select>
                     </div>
                     <button id="button" type="button" class="btn btn-primary col mt-3">Calculate</button>
                 </div>
@@ -43,22 +43,12 @@
 
         <script>
             // populate item dropdown
-            setItems('current');
-            setItems('upgrade');
-            // render dropdowns
-            //setEnhancement('current');
-            //setEnhancement('upgrade');
-            //setEnhancement('currentcaphra', true);
-            //setEnhancement('upgradecaphra', true);
+            setItems('item0');
+            setItems('item1');
             // calculate
             var ran = false;
             document.getElementById('button').onclick = function() {
-                calc(
-                    document.getElementById('current').selectedIndex, 
-                    document.getElementById('upgrade').selectedIndex,
-                    document.getElementById('currentcaphra').selectedIndex, 
-                    document.getElementById('upgradecaphra').selectedIndex
-                );
+                init();
             };
         </script>
     </body>
